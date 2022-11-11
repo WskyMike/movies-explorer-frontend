@@ -1,0 +1,67 @@
+$background-color: #ffffff;
+$global-text-color: #000000;
+$background-hero-color: #f3c1f8;
+
+$default-border: 1px solid hsla(0,0%,67%,.4);
+$default-padding: 0px 70px 0px 70px;
+
+$big-tablet-width: 848px;
+$small-tablet-width: 650px;
+$mobile-width: 426px;
+
+@mixin default-title-with-line {
+  border-bottom: 1px solid black;
+  box-sizing: border-box;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 27px;
+  margin: 0;
+  padding-bottom: 23px;
+  width: 100%;
+  letter-spacing: -0.04em;
+}
+
+@mixin default-container {
+  padding: 110px 70px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 100%;
+}
+
+@mixin default-button {
+  background-color: #000;
+  border: 1px solid #000000;
+  border-radius: 3px;
+  transition: 0.3s;
+}
+
+@mixin default-button-font {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+@mixin default-button-effect {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+@mixin default-link {
+  color: inherit;
+  text-decoration-line: none;
+  transition: 0.3s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@mixin default-link-effect {
+  opacity: 0.7;
+  user-select: none;
+  cursor: pointer;
+}
+
+@mixin default-font-400-14 {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+}

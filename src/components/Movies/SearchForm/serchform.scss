@@ -1,0 +1,168 @@
+@import '../../../globalStyles/_shared.scss';
+
+.search {
+  &__container {
+    @include default-container;
+    padding: 0 70px;
+
+    @media (max-width: $big-tablet-width) {
+      padding: 0 30px;
+    }
+
+    @media (max-width: $mobile-width) {
+      padding: 0 14px;
+    }
+  }
+
+  &__form {
+    width: 100%;
+    padding: 80px 0 70px;
+    box-sizing: border-box;
+    border-bottom: $default-border;
+
+    @media (max-width: $big-tablet-width) {
+      padding: 80px 0 111px;
+    }
+
+    @media (max-width: $small-tablet-width) {
+      gap: 46px;
+      padding: 80px 0 110px;
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: #fdfdfd;
+    box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.08);
+    border-radius: 9px;
+    box-sizing: border-box;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  &__toolbox {
+    gap: 19px;
+    display: flex;
+    margin-right: 32px;
+
+    @media (max-width: $big-tablet-width) {
+      margin-right: 23px;
+    }
+
+    @media (max-width: $small-tablet-width) {
+      margin-right: 15px;
+    }
+  }
+
+  &__input {
+    margin: 0;
+    padding: 25px 63px;
+    border: 0px;
+    outline: none;
+    color: $global-text-color;
+    line-height: 20px;
+    font-size: 18px;
+    width: 500px;
+
+    &::placeholder {
+      color: #8b8b8b;
+    }
+
+    @media (max-width: $big-tablet-width) {
+      width: 350px;
+    }
+
+    @media (max-width: $small-tablet-width) {
+      padding: 25px 0px 25px 16px;
+    }
+
+    @media (max-width: $mobile-width) {
+      width: 200px;
+    }
+  }
+
+  &__icon {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: none;
+    background: {
+      image: url(../../../images/search-input-icon.svg);
+      repeat: no-repeat;
+      position: center;
+    }
+    position: absolute;
+    margin-left: 19px;
+
+    @media (max-width: $small-tablet-width) {
+      display: none;
+    }
+  }
+
+  //   &__input_invalid::placeholder {
+  //     color: red;
+  //   }
+
+  &__button {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: none;
+    border-radius: 48px;
+    background: black;
+    background: {
+      image: url(../../../images/search-icon.svg);
+      repeat: no-repeat;
+      position: center;
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 4px black;
+    }
+
+    &:hover {
+      @include default-button-effect;
+    }
+
+    @media (max-width: $mobile-width) {
+    }
+  }
+}
+
+// Скроем плейсхолдер при фокусе для всех браузеров
+.search__input::-webkit-input-placeholder       {opacity: 1; transition: opacity 0.3s ease;}
+.search__input::-moz-placeholder                {opacity: 1; transition: opacity 0.3s ease;}
+.search__input:-moz-placeholder                 {opacity: 1; transition: opacity 0.3s ease;}
+.search__input:-ms-input-placeholder            {opacity: 1; transition: opacity 0.3s ease;}
+.search__input:focus::-webkit-input-placeholder {opacity: 0; transition: opacity 0.3s ease;}
+.search__input:focus::-moz-placeholder          {opacity: 0; transition: opacity 0.3s ease;}
+.search__input:focus:-moz-placeholder           {opacity: 0; transition: opacity 0.3s ease;}
+.search__input:focus:-ms-input-placeholder      {opacity: 0; transition: opacity 0.3s ease;}
+
+// Уберем лишний визуальный мусор
+.search__input::-ms-clear,
+.search__input::-ms-reveal {
+  display: none;
+  width : 0;
+  height: 0;
+}
+
+.search__input::-webkit-search-decoration,
+.search__input::-webkit-search-cancel-button,
+.search__input::-webkit-search-results-button,
+.search__input::-webkit-search-results-decoration {
+  display: none;
+}
+
+.search__input::-ms-clear,
+.search__input::-ms-reveal,
+.search__input::-webkit-search-decoration,
+.search__input::-webkit-search-cancel-button,
+.search__input::-webkit-search-results-button,
+.search__input::-webkit-search-results-decoration {
+  display: none;
+  width : 0;
+  height: 0;
+}

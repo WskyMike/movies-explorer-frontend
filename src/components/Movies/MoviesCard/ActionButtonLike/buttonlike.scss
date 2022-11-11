@@ -1,0 +1,20 @@
+.button-card-like {
+  background: transparent {
+    image: url(../../../../images/like-icon-quiet.svg);
+    repeat: no-repeat;
+    position: center;
+  }
+  width: 14px;
+  height: 12px;
+  padding: 0;
+  border: none;
+  outline: none;
+  transition: 0.3s;
+  cursor: pointer;
+
+  &_active {
+    background: {
+      image: url(../../../../images/like-icon-active.svg);
+    }
+  }
+}
