@@ -13,8 +13,11 @@
 ☑️ Webpack
 
 #
-## Адрес сервера API:
+## Адрес:
 
 https://diploma.front.nomorepartiesxyz.ru
 
 <br>
+
+## Ссылка на макет:
+https://disk.yandex.ru/d/414dzR10sgu6hw
