@@ -11,7 +11,6 @@ function Search() {
           className="search__form"
           name="search"
           method="get"
-          noValidate
           autoComplete="off"
         >
           <div className="search__wrapper">

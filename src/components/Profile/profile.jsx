@@ -11,7 +11,6 @@ function Profile({ ...props }) {
         className="profile__form"
         name={props.formName}
         onSubmit={props.onSubmit}
-        noValidate
         method="get"
       >
         {props.children}

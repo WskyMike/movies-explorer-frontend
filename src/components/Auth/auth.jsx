@@ -16,7 +16,6 @@ function Auth({ ...props }) {
         className="auth__form"
         name={props.formName}
         onSubmit={props.onSubmit}
-        noValidate
         method="get"
       >
         {props.children}
