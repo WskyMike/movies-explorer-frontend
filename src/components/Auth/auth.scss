@@ -1,0 +1,95 @@
+@import '../../globalStyles/_shared.scss';
+
+.auth {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 396px;
+  // min-height: 74vh;
+  margin: 0 auto;
+  padding: 7vh 0;
+  box-sizing: border-box;
+  justify-content: space-between;
+
+  @media (max-width: $big-tablet-width) {
+    // min-height: 154vh;
+    padding: 232px 0;
+  }
+
+  @media (max-width: $small-tablet-width) {
+    align-items: center;
+    padding: 7vh 30px 4vh;
+    // min-height: 117vh;
+  }
+
+  &__title {
+    margin: 40px 0;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.208;
+
+    @media (max-width: $small-tablet-width) {
+      margin: 50px auto 80px;
+    }
+  }
+
+  &__form {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: 375px;
+    overflow: visible;
+
+    @media (max-width: $small-tablet-width) {
+      height: 466px;
+    }
+  }
+
+  &__form .input-group:not(:last-of-type) {
+    margin-bottom: 8px;
+  }
+
+  &__submit-button {
+    width: 100%;
+    margin-top: auto;
+    padding: 14px;
+    box-sizing: border-box;
+    color: #fff;
+    font-weight: 500;
+    border: none;
+    @include default-button;
+
+    &:hover {
+      @include default-button-effect;
+    }
+
+    @media (max-width: $big-tablet-width) {
+    }
+  }
+
+  &__link {
+    @include default-link;
+    color: black;
+
+    &:hover {
+      @include default-link-effect;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 16px auto 0;
+    line-height: 17px;
+    color: #a0a0a0;
+
+    @media (max-width: $small-tablet-width) {
+      font-size: 12px;
+      line-height: 1.25;
+    }
+  }
+}

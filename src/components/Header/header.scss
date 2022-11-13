@@ -1,0 +1,42 @@
+@import '../../globalStyles/_shared.scss';
+
+$header-offset: 19px;
+$header-logo-size: 38px;
+
+.header {
+  &__container {
+    padding: $default-padding;
+    padding-top: $header-offset;
+    padding-bottom: $header-offset;
+    max-height: 74px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+
+    @media (max-width: $big-tablet-width) {
+      padding: 18px 30px 18px;
+    }
+
+    @media (max-width: $mobile-width) {
+      padding: 18px 14px;
+    }
+  }
+
+  &_landing-color {
+    background: $background-hero-color;
+  }
+
+  &__disable {
+    display: none;
+  }
+
+  &__logo {
+    max-width: $header-logo-size;
+    max-height: $header-logo-size;
+    display: flex;
+    gap: 44px;
+    align-items: center;
+  }
+}

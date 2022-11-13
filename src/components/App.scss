@@ -1,0 +1,36 @@
+@import '../globalStyles/shared';
+
+.page {
+  background: $background-color;
+  color: $global-text-color;
+  margin: 0 auto;
+  min-height: 100vh;
+  min-width: 320px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.active {
+  position: relative;
+  font-weight: 500;
+
+  &::before {
+    @media (max-width: $big-tablet-width) {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: $global-text-color;
+    }
+  }
+}

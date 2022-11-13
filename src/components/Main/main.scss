@@ -1,0 +1,10 @@
+@import '../../globalStyles/shared';
+
+.title {
+  @include default-title-with-line;
+
+  @media (max-width: $mobile-width) {
+    font-size: 18px;
+    padding-bottom: 24px;
+  }
+}
