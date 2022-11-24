@@ -27,4 +27,4 @@ https://disk.yandex.ru/d/414dzR10sgu6hw
 <br>
 
 ## Pull request:
-https://
+https://github.com/WskyMike/movies-explorer-frontend/pull/2
