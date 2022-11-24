@@ -218,11 +218,14 @@ function App() {
     getUserInfo();
   }, [loggedIn]);
 
-  // Регистраця
-  function handleRegister(name, email, password) {
-    MainApi.register(name, email, password)
+  // Авторизация
+  function handleLogin(email, password) {
+    MainApi.login(email, password)
       .then(() => {
-        navigate('/');
+        setLoggedIn(true);
+        getUserInfo();
+        navigate('/movies');
+        renderToastify('success', 'Добро пожалавать!');
       })
       .finally(() => setIsLoading(false))
       .catch((err) => {
@@ -230,14 +233,11 @@ function App() {
       });
   }
 
-  // Авторизация
-  function handleLogin(email, password) {
-    MainApi.login(email, password)
+  // Регистраця
+  function handleRegister(name, email, password) {
+    MainApi.register(name, email, password)
       .then(() => {
-        setLoggedIn(true);
-        getUserInfo();
-        navigate('/');
-        renderToastify('success', 'Добро пожалавать!');
+        handleLogin(email, password);
       })
       .finally(() => setIsLoading(false))
       .catch((err) => {
