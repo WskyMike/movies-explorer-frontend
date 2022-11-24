@@ -64,22 +64,28 @@
     color: $global-text-color;
     line-height: 20px;
     font-size: 18px;
-    width: 500px;
+    border-radius: 9px;
+    display: flex;
+    flex-grow: 1;
 
     &::placeholder {
       color: #8b8b8b;
     }
 
-    @media (max-width: $big-tablet-width) {
-      width: 350px;
-    }
+    // @media (max-width: $big-tablet-width) {
+    //   width: 350px;
+    // }
 
     @media (max-width: $small-tablet-width) {
       padding: 25px 0px 25px 16px;
     }
 
     @media (max-width: $mobile-width) {
-      width: 200px;
+      width: 240px;
+    }
+
+    &_invalid::placeholder {
+      color:rgba(255, 4, 4, 0.503);
     }
   }
 
