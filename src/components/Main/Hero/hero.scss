@@ -66,11 +66,14 @@
     margin: 75px 0 36px 0;
     max-width: 640px;
 
+    @media (max-width: 870px) {
+      margin: 48px 0 22px 0;
+    }
+
     @media (max-width: $big-tablet-width) {
       font-size: 40px;
       line-height: 50px;
       text-align: center;
-      margin: 48px 0 22px 0;
     }
 
     @media (max-width: 600px) {

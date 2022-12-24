@@ -1,14 +1,16 @@
-# Проект Movies Explorer | Frontend
+# [Проект Movies Explorer](https://diploma.front.nomorepartiesxyz.ru) | Frontend
 
-Клиентская часть с авторизацией.
-
+Клиентская часть. <br><br>
+Каталог фильмов на Яндекс API: https://api.nomoreparties.co/beatfilm-movies <br><br>
+Авторизация, база данных пользователей и сохранение фильмов на собственной бекэнд-части: <br>
+https://diploma.back.nomorepartiesxyz.ru
 ## Стек:
 
 ☑️ HTML5 / CSS3
 
 ☑️ SASS
 
-☑️ React 
+☑️ JS => React 
 
 ☑️ Webpack
 
@@ -21,3 +23,8 @@ https://diploma.front.nomorepartiesxyz.ru
 
 ## Ссылка на макет:
 https://disk.yandex.ru/d/414dzR10sgu6hw
+
+<br>
+
+## Pull request:
+https://github.com/WskyMike/movies-explorer-frontend/pull/2

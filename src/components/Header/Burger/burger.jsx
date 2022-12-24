@@ -7,7 +7,7 @@ import AppContext from '../../../Contexts/AppContext';
 import './burger.scss';
 
 function Burger({ handleClickBurger }) {
-  const stateMenu = useContext(AppContext);
+  const { stateMenu } = useContext(AppContext);
   const isOpen = stateMenu ? 'burger_active' : '';
 
   return (

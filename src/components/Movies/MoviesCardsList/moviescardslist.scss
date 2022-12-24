@@ -8,7 +8,7 @@
   padding: 71px 70px 10px;
   box-sizing: border-box;
 
-  @media (max-width: 1280px) {
+  @media (max-width: $big-tablet-width) {
     grid-template-columns: repeat(2, minmax(150px, 339px));
     gap: 30px;
     padding: 80px 30px 30px;
@@ -18,5 +18,34 @@
     grid-template-columns: repeat(1, minmax(300px, 339px));
     gap: 11px;
     padding: 50px 10px 25px;
+  }
+
+  &__more-button {
+    grid-column: 1/-1;
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    margin: 50px auto 80px;
+    padding: 8px;
+    box-sizing: border-box;
+    border: $default-border;
+    border-radius: 6px;
+    background: transparent;
+    font-size: 12px;
+    line-height: 1.25;
+    font-weight: 500;
+    color: $global-text-color;
+
+    @media (max-width: $big-tablet-width) {
+      margin-bottom: 98px;
+    }
+
+    @media (max-width: $mobile-width) {
+      max-width: 240px;
+    }
+
+    &:hover {
+      @include default-link-effect;
+    }
   }
 }

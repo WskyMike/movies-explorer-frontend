@@ -1,16 +1,18 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react';
+import React, { useContext } from 'react';
+import AppContext from '../../../../Contexts/AppContext';
 
 import './checkbox.scss';
 
-function ShortFilms() {
+function CheckBox() {
+  const { checkBoxHandler, isChecked } = useContext(AppContext);
+
   return (
     <label className="checkbox__wrapper">
       <input
         className="checkbox__switch"
         type="checkbox"
-        name="shortfilms"
-        aria-label="чек-бокс короткометражки"
+        checked={isChecked || false}
+        onChange={checkBoxHandler}
       />
       <span className="checkbox__switch-cover" />
       <span className="checkbox__text">Короткометражки</span>
@@ -18,4 +20,4 @@ function ShortFilms() {
   );
 }
 
-export default ShortFilms;
+export default CheckBox;
