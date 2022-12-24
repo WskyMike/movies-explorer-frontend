@@ -12,16 +12,18 @@ function SavedMovies({ ...props }) {
         searchValue={props.searchValue}
         searchChangeValueHandler={props.searchChangeValueHandler}
         searchHandler={props.searchHandler}
-        isChecked={props.isChecked}
-        checkBoxHandler={props.checkBoxHandler}
         formValidation={props.formValidation}
       />
-      <MoviesCardsList
-        searchedMovies={props.searchedMovies}
-        searchValue={props.searchValue}
-        removeMovie={props.removeMovie}
-        isLoading={props.isLoading}
-      />
+      {props.searchedMovies.length === 0 ? (
+        <p className="movies_list-notfound">Ничего не найдено</p>
+      ) : (
+        <MoviesCardsList
+          searchedMovies={props.searchedMovies}
+          searchValue={props.searchValue}
+          removeMovie={props.removeMovie}
+          isLoading={props.isLoading}
+        />
+      )}
     </main>
   );
 }

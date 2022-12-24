@@ -10,7 +10,7 @@ import { renderToastify } from '../../../vendor/Toastify/toastify';
 function UserEdit({ ...props }) {
   const REGEX_EMAIL = '^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$';
   const { name, email } = useContext(CurrentUserContext);
-  const { setIsLoading } = useContext(AppContext);
+  const { setIsLoading, isLoading } = useContext(AppContext);
   const {
     values,
     setValues,
@@ -22,7 +22,7 @@ function UserEdit({ ...props }) {
 
   useEffect(() => {
     setValues({ name, email });
-  }, []);
+  }, [isLoading]);
 
   function handleSubmit(e) {
     e.preventDefault();

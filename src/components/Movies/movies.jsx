@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 
 import Search from './SearchForm/searchform';
@@ -13,17 +14,18 @@ function Movies({ ...props }) {
         searchChangeValueHandler={props.searchChangeValueHandler}
         searchHandler={props.searchHandler}
         formValidation={props.formValidation}
+        // checkBoxHandler={props.checkBoxHandler}
+        // isChecked={props.isChecked}
       />
-      {props.searchedMovies.length === 0 && (
-        <p className="movies_list-empty">Ничего не найдено</p>
-      )}
-      <MoviesCardsList
-        searchedMovies={props.searchedMovies}
-        searchValue={props.searchValue}
-        likeMovie={props.likeMovie}
-        removeMovie={props.removeMovie}
-        isLoading={props.isLoading}
-      />
+      {props.searchedMovies ? (
+        <MoviesCardsList
+          searchedMovies={props.searchedMovies}
+          searchValue={props.searchValue}
+          likeMovie={props.likeMovie}
+          removeMovie={props.removeMovie}
+          isLoading={props.isLoading}
+        />
+      ) : ('')}
     </main>
   );
 }

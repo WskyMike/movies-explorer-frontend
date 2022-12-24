@@ -9,7 +9,7 @@ function Portfolio() {
         <h3 className="portfolio__title">Портфолио</h3>
         <ul className="portfolio__list">
           <li className="portfolio__item">
-            <a className="portfolio__link" href="https://github.com/WskyMike/how-to-learn" target="blank">
+            <a className="portfolio__link" href="https://wskymike.github.io/how-to-learn/" target="blank">
               Статичный сайт
               <img src={Icon} className="portfolio__link-pic" alt="картинка-ссылка" />
             </a>

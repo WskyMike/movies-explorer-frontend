@@ -8,9 +8,10 @@ function checkResponse(res) {
     return res.json();
   }
 
-  return res.json().then((data) => {
-    throw new Error(data.message);
-  });
+  return res.json()
+    .then((data) => {
+      throw new Error(data.message);
+    });
 }
 
 // Регистрация
@@ -22,7 +23,8 @@ function register(name, email, password) {
       Accept: 'application/json',
     },
     body: JSON.stringify({ name, email, password }),
-  }).then(checkResponse);
+  })
+    .then(checkResponse);
 }
 
 // Авторизация
@@ -39,7 +41,6 @@ function login(email, password) {
     .then((data) => {
       if (data.token) {
         localStorage.setItem('jwt', data.token);
-        // return data.token; ----------------------------------------------------------!
       }
       return data.token;
     });

@@ -1,5 +1,4 @@
-import React, {
-} from 'react';
+import React from 'react';
 import CheckBox from './CheckBox/checkbox';
 
 import './serchform.scss';

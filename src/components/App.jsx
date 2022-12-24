@@ -1,3 +1,6 @@
+/* eslint-disable max-len */
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React, { useState, useEffect } from 'react';
 import {
@@ -11,7 +14,8 @@ import {
 // Context
 import AppContext from '../Contexts/AppContext';
 import CurrentUserContext from '../Contexts/CurrentUserContext';
-import RequireAuth from '../hooks/RequireAuth';
+import RequireAuth from '../hooks/requireAuth';
+import UnauthRoute from '../hooks/unauthRoute';
 import MoviesApi from '../utils/MoviesApi';
 import validCardFormat from '../utils/validCardFormat';
 
@@ -37,11 +41,12 @@ function App() {
   const jwt = localStorage.getItem('jwt');
   const { pathname } = useLocation();
   const [isLoading, setIsLoading] = useState(false);
-
   const [stateMenu, setStateMenu] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  // Поиск среди сохраненных фильмов
   const [searchedSaveMovies, setSearchedSaveMovies] = useState([]);
+  // Сохраненные фильмы
   const [userSavedMovies, setUserSavedMovies] = useState([]);
   // Валидация формы поиска
   const [formValidation, setFormValidation] = useState(true);
@@ -49,11 +54,13 @@ function App() {
   const [isChecked, setIsChecked] = useState(false);
   // Значение поиска
   const [searchValue, setSearchValue] = useState('');
-  // Массив фильмов
+  // Массив всех фильмов
   const [movies, setMovies] = useState([]);
-  const [searchedMovies, setSearchedMovies] = useState(movies);
-
-  // console.log(movies);
+  // Массив найденных фильмов
+  const [searchedMovies, setSearchedMovies] = useState(() => {
+    const initialData = JSON.parse(localStorage.getItem('searchedMovies'));
+    return initialData || '';
+  });
 
   // Таймер загрузки
   function loadingTimer(time = 0) {
@@ -64,35 +71,12 @@ function App() {
     }, [time]);
   }
 
-  // Загрузить, отформатировать и сохранить в массив ВСЕ фильмы.
-  async function moviesHandler() {
-    if (loggedIn) {
-      setIsLoading(true);
-      await MoviesApi()
-        .then((res) => {
-          const formattedCardList = res.map((movie) => validCardFormat(movie));
-          localStorage.setItem('movies', JSON.stringify(formattedCardList));
-          setMovies(JSON.parse(localStorage.getItem('movies')));
-        })
-        .finally(() => setIsLoading(false))
-        .catch(() => {
-          renderToastify('error', 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
-          localStorage.removeItem('movies');
-        });
-    }
-  }
-
-  useEffect(() => {
-    moviesHandler();
-  }, [loggedIn]);
-  // ---
-
   // Обработка запроса из поисковой строки
   useEffect(() => {
     pathname === '/movies'
       ? setSearchValue(localStorage.getItem('searchValueMain') || '')
       : setSearchValue(localStorage.getItem('searchValueSave') || '');
-  }, [pathname]);
+  }, [pathname, searchedMovies]);
 
   function searchChangeValueHandler(e) {
     setSearchValue(e.target.value);
@@ -101,6 +85,16 @@ function App() {
       ? localStorage.setItem('searchValueMain', e.target.value)
       : localStorage.setItem('searchValueSave', e.target.value);
   }
+  // ---
+
+  // При обновлении saved-movies возвращает все фильмы
+  useEffect(() => {
+    if (pathname === '/saved-movies') {
+      localStorage.removeItem('searchValueSave');
+      setSearchedSaveMovies(userSavedMovies);
+      localStorage.setItem('isCheckSave', JSON.stringify(false));
+    }
+  }, [pathname]);
   // ---
 
   // Отслеживание изменений в чекбоксе
@@ -120,33 +114,35 @@ function App() {
   // ---
 
   // Обработчик поиска фильмов
-  function searchMoviesHandler(movs, filteredMovies) {
+  const searchMoviesHandler = (movs, filteredMovies) => {
+    // setSearchedMovies([]);
     isChecked
       ? filteredMovies(
         movs.filter(
           (movie) => movie.duration <= 40
-            && movie.nameRU.toLowerCase().includes(searchValue.toLowerCase())
-            && movie.nameRU.toLowerCase().includes(searchValue.toLowerCase()),
+              && movie.nameRU.toLowerCase().includes(searchValue.toLowerCase())
+              && movie.nameRU.toLowerCase().includes(searchValue.toLowerCase()),
         ),
       )
       : filteredMovies(
         movs.filter(
           (movie) => movie.nameRU.toLowerCase().includes(searchValue.toLowerCase())
-            && movie.nameRU.toLowerCase().includes(searchValue.toLowerCase()),
+              && movie.nameRU.toLowerCase().includes(searchValue.toLowerCase()),
         ),
       );
-  }
+  };
   // ---
 
+  // Обновить лист фильмов при нажатии на чекбокс
+  useEffect(() => {
+    if (searchedMovies) { searchMoviesHandler(movies, setSearchedMovies); }
+  }, [localStorage.getItem('isCheckMain')]);
+
+  useEffect(() => {
+    searchMoviesHandler(userSavedMovies, setSearchedSaveMovies);
+  }, [localStorage.getItem('isCheckSave')]);
+
   // Обработчик поиска
-  useEffect(() => {
-    setSearchedMovies(JSON.parse(localStorage.getItem('searchedMovies')));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('searchedMovies', JSON.stringify(searchedMovies));
-  }, [movies, searchedMovies]);
-
   function searchHandler(e) {
     const valid = e.target.checkValidity();
     e.preventDefault();
@@ -155,24 +151,64 @@ function App() {
     setFormValidation(valid);
     searchMoviesHandler(movies, setSearchedMovies);
   }
+
+  useEffect(() => {
+    localStorage.setItem('searchedMovies', JSON.stringify(searchedMovies));
+  }, [searchedMovies]);
+
+  useEffect(() => {
+    setSearchedMovies(JSON.parse(localStorage.getItem('searchedMovies')));
+  }, [userSavedMovies, searchValue, pathname]);
   // --
 
-  // Обновить лист фильмов при нажатии на чекбокс
+  // Загрузить, отформатировать и сохранить в массив ВСЕ фильмы.
+  async function moviesHandler() {
+    setIsLoading(true);
+    await MoviesApi()
+      .then((res) => {
+        const formattedCardList = res.map((movie) => validCardFormat(movie));
+        localStorage.setItem('movies', JSON.stringify(formattedCardList));
+        setMovies(JSON.parse(localStorage.getItem('movies')));
+      })
+      .finally(() => setIsLoading(false))
+      .catch(() => {
+        renderToastify(
+          'error',
+          'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз',
+        );
+        localStorage.removeItem('movies');
+      });
+  }
+
   useEffect(() => {
-    searchMoviesHandler(movies, setSearchedMovies);
-    searchMoviesHandler(userSavedMovies, setSearchedSaveMovies);
-  }, [isChecked]);
+    if (pathname === '/movies') {
+      moviesHandler();
+    }
+  }, [loggedIn]);
 
   // Поиск по сохраненым фильмам
+  function savedMoviesSearchHandler(e) {
+    e.preventDefault();
+    loadingTimer(1000);
+    searchMoviesHandler(userSavedMovies, setSearchedSaveMovies);
+  }
+
   useEffect(() => {
     setSearchedSaveMovies(userSavedMovies);
   }, [userSavedMovies]);
-
-  function savedMoviesSearchHandler(e) {
-    e.preventDefault();
-    searchMoviesHandler(userSavedMovies, setSearchedSaveMovies);
-  }
   // ---
+
+  // Получить сохраненные фильмы
+  function getSavedMovies() {
+    MainApi.getSavedMovies(jwt)
+      .then((res) => {
+        setUserSavedMovies(res);
+      })
+      .finally(() => setIsLoading(false))
+      .catch((err) => {
+        renderToastify('error', err.message);
+      });
+  }
 
   // Cохранение фильма
   function likeMovie(movie) {
@@ -186,23 +222,6 @@ function App() {
   }
   // ---
 
-  // Проверка токена
-  function authCheck() {
-    if (jwt) {
-      MainApi.getUserInfo(jwt);
-      MainApi.getSavedMovies(jwt)
-        .then((data) => {
-          setLoggedIn(true);
-          setUserSavedMovies(data);
-          navigate(pathname);
-        });
-    }
-  }
-
-  useEffect(() => {
-    authCheck();
-  }, [loggedIn]);
-
   // Получить инфо о пользователе
   function getUserInfo() {
     MainApi.getUserInfo(jwt)
@@ -211,21 +230,15 @@ function App() {
       });
   }
 
-  useEffect(() => {
-    if (loggedIn === false) {
-      return;
-    }
-    getUserInfo();
-  }, [loggedIn]);
-
   // Авторизация
   function handleLogin(email, password) {
     MainApi.login(email, password)
       .then(() => {
         setLoggedIn(true);
         getUserInfo();
+        getSavedMovies();
         navigate('/movies');
-        renderToastify('success', 'Добро пожалавать!');
+        renderToastify('success', 'Добро пожаловать!');
       })
       .finally(() => setIsLoading(false))
       .catch((err) => {
@@ -247,20 +260,46 @@ function App() {
 
   // Выход
   function handleLogout() {
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('movies');
-    localStorage.removeItem('searchedMovies');
-    setSearchedMovies(null);
-    localStorage.removeItem('searchValueMain');
-    localStorage.removeItem('searchValueSave');
-    localStorage.removeItem('isCheckMain');
-    localStorage.removeItem('isCheckSave');
     setLoggedIn(false);
+    localStorage.clear();
+    setSearchedMovies('');
     navigate('/');
   }
 
+  // Получить данные, если loggedIn
+  useEffect(() => {
+    if (loggedIn === true) {
+      MainApi.getUserInfo()
+        .then((data) => {
+          setLoggedIn(true);
+          setCurrentUser(data);
+          navigate(pathname);
+        });
+    }
+  }, [loggedIn]);
+
+  function tokenCheck() {
+    if (jwt) {
+      MainApi.getUserInfo()
+        .then((data) => {
+          setLoggedIn(true);
+          setCurrentUser(data);
+          getSavedMovies();
+          navigate(pathname);
+        })
+        .catch((err) => {
+          renderToastify('error', err.message);
+        });
+    }
+  }
+
+  useEffect(() => {
+    tokenCheck();
+  }, []);
+
   // Обновить юзера
   function handleUpdateUser(name, email) {
+    setIsLoading(true);
     MainApi.updateUserInfo(name, email)
       .then(({ name, email }) => {
         renderToastify('success', 'Данные обновлены!');
@@ -285,7 +324,7 @@ function App() {
   function removeMovie(movie) {
     const isOwner = movie.owner === currentUser._id;
     const idLikedMovie = userSavedMovies.find(
-      ((item) => item.movieId === movie.id),
+      (item) => item.movieId === movie.id,
     );
 
     if (isOwner || idLikedMovie._id) {
@@ -307,16 +346,17 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{
-      stateMenu,
-      loggedIn,
-      loadingTimer,
-      isLoading,
-      setIsLoading,
-      userSavedMovies,
-      isChecked,
-      checkBoxHandler,
-    }}
+    <AppContext.Provider
+      value={{
+        stateMenu,
+        loggedIn,
+        loadingTimer,
+        isLoading,
+        setIsLoading,
+        userSavedMovies,
+        isChecked,
+        checkBoxHandler,
+      }}
     >
       <CurrentUserContext.Provider value={currentUser}>
         <div className="app">
@@ -327,8 +367,30 @@ function App() {
             onClickBurger={handleClickBurger}
           />
           <Routes>
-            <Route path="signup" element={isLoading ? <Preloader /> : <Register onRegister={handleRegister} />} />
-            <Route path="signin" element={isLoading ? <Preloader /> : <Login onLogin={handleLogin} />} />
+            <Route
+              path="signup"
+              element={
+                isLoading ? (
+                  <Preloader />
+                ) : (
+                  <UnauthRoute>
+                    <Register onRegister={handleRegister} />
+                  </UnauthRoute>
+                )
+              }
+            />
+            <Route
+              path="signin"
+              element={
+                isLoading ? (
+                  <Preloader />
+                ) : (
+                  <UnauthRoute>
+                    <Login onLogin={handleLogin} />
+                  </UnauthRoute>
+                )
+              }
+            />
             <Route path="/" element={<Main />} />
             <Route
               path="profile"
@@ -346,7 +408,7 @@ function App() {
               element={(
                 <RequireAuth>
                   <Movies
-                    checkBoxHandler={checkBoxHandler}
+                    movies={movies}
                     searchValue={searchValue}
                     searchChangeValueHandler={searchChangeValueHandler}
                     searchHandler={searchHandler}
@@ -354,9 +416,7 @@ function App() {
                     removeMovie={removeMovie}
                     isLoading={isLoading}
                     formValidation={formValidation}
-                    searchedMovies={
-                      searchedMovies == null ? movies : searchedMovies
-                    }
+                    searchedMovies={searchedMovies}
                   />
                 </RequireAuth>
               )}
@@ -368,7 +428,6 @@ function App() {
                   <SavedMovies
                     searchValue={searchValue}
                     searchChangeValueHandler={searchChangeValueHandler}
-                    checkBoxHandler={checkBoxHandler}
                     searchedMovies={searchedSaveMovies}
                     searchHandler={savedMoviesSearchHandler}
                     removeMovie={removeMovie}

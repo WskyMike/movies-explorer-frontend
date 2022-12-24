@@ -1,15 +1,15 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/moviescard';
 import Preloader from '../../../vendor/Preloader/Preloader';
 import './moviescardslist.scss';
 
 function MoviesCardsList({ ...props }) {
-  const { location } = useLocation();
   const windowInnerWidth = window.innerWidth;
-  const [renderedMoviesCount, setRenderedMoviesCount] = useState(0);
-  const [showMoreMoviesCount, setShowMoreMoviesCount] = useState(0);
+  const [renderMoviesCount, setRenderMoviesCount] = useState(0);
+  const [renderButtonMore, setRenderButtonMore] = useState(0);
   const [windowWidth, setWindowWidth] = useState(windowInnerWidth);
+  const [isEmpty, setIsEmpty] = useState(true);
 
   let resizeTimeout = null;
 
@@ -26,55 +26,60 @@ function MoviesCardsList({ ...props }) {
     return () => window.removeEventListener('resize', updateWindowWidth);
   });
 
-  useEffect(() => {
-    if (location === '/movies' || location === '/saved-movies') {
-      if (windowWidth <= 481) {
-        setRenderedMoviesCount(5);
-        setShowMoreMoviesCount(2);
-      } else if (windowWidth <= 769) {
-        setRenderedMoviesCount(8);
-        setShowMoreMoviesCount(2);
-      } else if (windowWidth <= 1270) {
-        setRenderedMoviesCount(12);
-        setShowMoreMoviesCount(3);
-      } else {
-        setRenderedMoviesCount(12);
-        setShowMoreMoviesCount(4);
-      }
-    } else {
-      setRenderedMoviesCount(props.searchedMovies.length);
-    }
-  }, [windowWidth, location, props.searchedMovies.length]);
-
-  function handleShowMoreMovies() {
-    setRenderedMoviesCount(renderedMoviesCount + showMoreMoviesCount);
+  function handleMoreClick() {
+    const moreMoviesCount = windowWidth >= 1280 ? 3 : windowWidth >= 600 ? 2 : 1;
+    setRenderMoviesCount(renderMoviesCount + moreMoviesCount);
   }
 
+  useEffect(() => {
+    setRenderMoviesCount(windowWidth >= 1280 ? 12 : windowWidth >= 600 ? 8 : 5);
+  }, [windowWidth]);
+
+  useEffect(() => {
+    const check = props.searchedMovies
+      ? renderMoviesCount < props.searchedMovies.length
+      : false;
+    setRenderButtonMore(check);
+  }, [props.searchedMovies, renderMoviesCount]);
+
+  useEffect(() => {
+    if (props.searchedMovies.length === 0) {
+      setIsEmpty(true);
+    } else {
+      setIsEmpty(false);
+    }
+  }, [props.searchedMovies]);
+
   return (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
-      {props.isLoading && <Preloader />}
-      {!props.isLoading && (
-        <section className="movies-list">
-          {props.searchedMovies.slice(0, renderedMoviesCount).map((movie) => (
-            <MoviesCard
-              movie={movie}
-              searchedMovies={props.searchedMovies}
-              key={movie.owner ? movie._id : movie.id}
-              likeMovie={props.likeMovie}
-              isLoading={props.isLoading}
-              removeMovie={props.removeMovie}
-            />
-          ))}
-        </section>
-      )}
-      {!props.isLoading && props.searchedMovies.length > renderedMoviesCount && (
-        <button
-          className="movies-list__more-button"
-          type="button"
-          onClick={handleShowMoreMovies}
-        >
-          Ещё
-        </button>
+      {props.isLoading ? (
+        <Preloader />
+      ) : (
+        <>
+          {isEmpty ? (<p className="movies_list-notfound">Ничего не найдено</p>) : (
+            <section className="movies-list">
+              {props.searchedMovies.slice(0, renderMoviesCount).map((movie) => (
+                <MoviesCard
+                  movie={movie}
+                  key={movie.owner ? movie._id : movie.id}
+                  likeMovie={props.likeMovie}
+                  isLoading={props.isLoading}
+                  removeMovie={props.removeMovie}
+                />
+              ))}
+            </section>
+          )}
+          {!props.isLoading && renderButtonMore && (
+            <button
+              className="movies-list__more-button"
+              type="button"
+              onClick={handleMoreClick}
+            >
+              Ещё
+            </button>
+          )}
+        </>
       )}
     </>
   );
