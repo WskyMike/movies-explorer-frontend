@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import AppContext from '../../Contexts/AppContext';
 
 import Navigation from '../Navigation/nav';
 import VisitorNav from '../VisitorNav/visitornav';
@@ -9,12 +10,12 @@ import Burger from './Burger/burger';
 import './header.scss';
 
 function Header({ onBurgerClose, onClickBurger }) {
+  const { loggedIn } = useContext(AppContext);
   const { pathname } = useLocation();
+  //
+  const headerOnLanding = !loggedIn || pathname === '/' ? 'header_landing-color' : null;
+
   if (pathname === '/signin' || pathname === '/signup' || pathname === '/404') return null;
-
-  const loggedIn = pathname !== '/';
-  const headerOnLanding = loggedIn ? '' : 'header_landing-color';
-
   return (
     <header className={`header ${headerOnLanding}`}>
       <div className="header__container">

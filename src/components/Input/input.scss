@@ -46,3 +46,21 @@
     display: block;
   }
 }
+
+.input_error,
+.input_error.input:focus {
+  color: #FF4062;
+  border-color: #FF4062;
+}
+
+.input-error {
+  margin: 0;
+  min-height: 12px;
+  color: #FF4062;
+  font-size: 10px;
+  line-height: 1.2;
+
+  &__profile {
+    margin-left: 10px;
+  }
+}

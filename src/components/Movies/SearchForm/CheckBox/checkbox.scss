@@ -81,7 +81,7 @@
     font-size: 13px;
     line-height: 18px;
 
-    @media (max-width: $big-tablet-width) {
+    @media (max-width: $small-tablet-width) {
       font-size: 11px;
     }
   }

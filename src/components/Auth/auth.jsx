@@ -16,10 +16,10 @@ function Auth({ ...props }) {
         className="auth__form"
         name={props.formName}
         onSubmit={props.onSubmit}
-        method="get"
+        noValidate
       >
         {props.children}
-        <button className="auth__submit-button" type="submit">
+        <button className={props.valid === false ? 'auth__submit-button_invalid' : 'auth__submit-button'} type="submit">
           {props.btnText}
         </button>
       </form>

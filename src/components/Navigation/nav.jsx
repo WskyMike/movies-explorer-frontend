@@ -8,7 +8,7 @@ import './nav.scss';
 import ToProfileIcon from '../../images/to-profile-icon.svg';
 
 function Navigation({ onBurgerClose }) {
-  const stateMenu = useContext(AppContext);
+  const { stateMenu } = useContext(AppContext);
   const menuOpen = stateMenu ? 'nav_open' : '';
 
   function handleClickLink(e) {
