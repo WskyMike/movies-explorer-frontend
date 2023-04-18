@@ -10,7 +10,9 @@ https://diploma.back.nomorepartiesxyz.ru
 
 ☑️ SASS
 
-☑️ JS => React 
+☑️ JS 
+
+☑️  React 
 
 ☑️ Webpack
 
@@ -18,6 +20,11 @@ https://diploma.back.nomorepartiesxyz.ru
 ## Адрес:
 
 https://diploma.front.nomorepartiesxyz.ru
+
+<br>
+
+## Бэк:
+https://github.com/WskyMike/movies-explorer-api
 
 <br>
 
