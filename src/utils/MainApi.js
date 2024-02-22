@@ -1,4 +1,4 @@
-const BASE_URL = 'https://diploma.back.nomorepartiesxyz.ru';
+const BASE_URL = 'https://api.moviesexplorer.webtm.ru';
 
 // const authorization = "Bearer " + localStorage.getItem("jwt"), --------------------------!
 
