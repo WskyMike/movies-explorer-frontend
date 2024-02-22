@@ -12,7 +12,7 @@ function NotFound() {
       <p className="not-found__text">Страница не найдена</p>
       <button
         className="not-found__button"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate(-4)}
         type="button"
         aria-label="Вернуться на предыдущую страницу"
       >
