@@ -1,4 +1,4 @@
-# Проект [Movies Explorer](https://diploma.front.nomorepartiesxyz.ru) | Frontend
+# Проект [Movies Explorer](https://moviesexplorer.webtm.ru) | Frontend
 
 ### 📜 Описание:
 Клиентская часть дипломного проекта Я.Практикума по специальности "Веб-разработчик". Одностраничное приложение, взаимодействующее c публичным API ["BeatFilms"](https://api.nomoreparties.co/beatfilm-movies) для поиска фильмов. Авторизация, база данных пользователей и сохранение фильмов на собственной [бекэнд-части.](https://github.com/WskyMike/movies-explorer-api)
@@ -53,6 +53,6 @@
 
 ### 🔗 Ссылки:
 
-* Front: https://diploma.front.nomorepartiesxyz.ru
-* Back: https://diploma.back.nomorepartiesxyz.ru
+* Front: https://moviesexplorer.webtm.ru
+* Back: https://api.moviesexplorer.webtm.ru
 * Макет: https://disk.yandex.ru/d/414dzR10sgu6hw
